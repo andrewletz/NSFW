@@ -12,7 +12,7 @@ var observer = new MutationObserver(function (mutations, me) {
   // `mutations` is an array of mutations that occurred
   // `me` is the MutationObserver instance
   var recs = document.querySelectorAll("ytd-compact-video-renderer");
-  if (recs.length > 19) { // if this is greater than 19, all of our recommendations are loaded in
+  if (recs.length > 18) { // if this is greater than 18, all of our recommendations are loaded in
     handleRecs(recs);
     me.disconnect(); // stop observing
     return;
