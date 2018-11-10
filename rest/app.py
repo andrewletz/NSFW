@@ -3,25 +3,12 @@ from flask import Flask, jsonify
 from flask import abort
 from flask import request
 from flask import url_for
+from flask_cors import CORS
 
 from ModelAPI import *
 
 app = Flask(__name__)
-
-tasks = [
-    {
-        'id': 1,
-        'title': u'Buy groceries',
-        'description': u'Milk, Cheese, Pizza, Fruit, Tylenol', 
-        'done': False
-    },
-    {
-        'id': 2,
-        'title': u'Learn Python',
-        'description': u'Need to find a good Python tutorial on the web', 
-        'done': False
-    }
-]
+CORS(app)
 
 def make_public_task(task):
     new_task = {}
@@ -31,6 +18,25 @@ def make_public_task(task):
         else:
             new_task[field] = task[field]
     return new_task
+
+@app.route('/clickbait', methods=['POST'])
+def clickbait():
+    if not request.json:
+        abort(400)
+    x = process_and_predict_clickbait_data("Top 100 life hacks for fun style!")
+    print(x)
+    resp = jsonify({'result': 1})
+    resp.headers['Access-Control-Allow-Headers'] = "*"
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    resp.headers['Access-Control-Allow-Methods'] = ["GET", "POST", "DELETE", "PUT"]
+    return resp, 201
+
+@app.route('/cb', methods=['GET'])
+def cb():
+    x = process_and_predict_clickbait_data("Top 100 life hacks for fun style!")
+    resp = jsonify({'result': x})
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
 
 @app.route('/todo/api/v1.0/tasks', methods=['GET'])
 def get_tasks():
