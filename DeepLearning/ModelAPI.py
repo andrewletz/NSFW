@@ -61,10 +61,6 @@ print("Prediction: ", process_and_predict_classify_data("Network Solids and Carb
 print("Prediction: ", process_and_predict_classify_data("Supply and Demand: Economics #4"), " Actual: 4")
 
 
-while(True):
-	title = input("Enter a title to classify: ")
-	print("Result: ", process_and_predict_classify_data(title))
-
 
 
 
