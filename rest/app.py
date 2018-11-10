@@ -32,14 +32,18 @@ def make_public_task(task):
 
 @app.route('/todo/api/v1.0/tasks', methods=['GET'])
 def get_tasks():
-    return jsonify({'tasks': [make_public_task(task) for task in tasks]})
+    resp = jsonify({'tasks': [make_public_task(task) for task in tasks]})
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
 
 @app.route('/todo/api/v1.0/tasks/<int:task_id>', methods=['GET'])
 def get_task(task_id):
     task = [task for task in tasks if task['id'] == task_id]
+    resp = jsonify({'task': task[0]})
+    resp.headers['Access-Control-Allow-Origin'] = '*'
     if len(task) == 0:
         abort(404)
-    return jsonify({'task': task[0]})
+    return resp
 
 @app.route('/todo/api/v1.0/tasks', methods=['POST'])
 def create_task():
