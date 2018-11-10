@@ -4,7 +4,7 @@
 
 'use strict';
 
-let get = document.getElementById('get');
+let toggle = document.getElementById('toggle');
 // chrome.storage.sync.get('color', function(data) {
 //   changeColor.style.backgroundColor = data.color;
 //   changeColor.setAttribute('value', data.color);
@@ -16,9 +16,9 @@ const getAllEvents = async () => {        // call this to fetch all events in th
 	});
 	const data = await response.json();
 	chrome.extension.getBackgroundPage().console.log(data);
-}
+};
 
-get.onclick = function(element) {
+toggle.onclick = function(element) {
     // let color = element.target.value;
     // chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     //   chrome.tabs.executeScript(
