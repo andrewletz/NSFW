@@ -1,32 +1,76 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/custom.css" rel="stylesheet">
+
+    <!-- <script src="bootstrap/js/bootstrap.min.js"></script> -->
 
     <style>
-      button {
-        height: 30px;
-        width: 30px;
-        outline: none;
+
+
+      button{
+        &:hover {
+          background-color: lighten(green, 5%);
+          cursor: pointer;
+          cursor: hand;
+        };
+        background-color: green;
+        color: white;
+        text-align:center;
+        margin: 20px;
+      },
+      ul.dropdown-menu{
+        position:static;
+        float:none;
+        width:150px;
       }
+
     </style>
+
   </head>
 
   <body>
-    <button id="get" type="button" class="btn btn-primary btn-lg btn-block">GET</button>
-
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" value="" id="mathCheck">
-        <label class="form-check-label" for="mathCheck">
-            Math
-        </label>
+    <!-- <button id="get" type="button" class="btn btn-primary btn-lg btn-block">GET</button> -->
+    
+    
+    <div class="container">
+      <div class="row">
+        <button style="margin: 20px;" id="toggle" type="button" class="btn btn-outline-success">Enter Work Mode</button>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="checkbox">
+            <label><input type="checkbox" value=""> Math</label>
+          </div>
+          <div class="checkbox">
+            <label><input type="checkbox" value=""> Computer Science</label>
+          </div>
+          <div class="checkbox">
+            <label><input type="checkbox" value=""> Chemistry</label>
+          </div>
+          <div class="checkbox">
+            <label><input type="checkbox" value=""> Drawing</label>
+          </div>
+          <div class="checkbox">
+            <label><input type="checkbox" value=""> Economics</label>
+          </div>
+          <hr style="margin: 0px;">
+          <div class="checkbox">
+            <label><input type="checkbox" value=""> Blur Clickbait</label>
+          </div>
+        </div>
+      </div>
     </div>
+
+
   </body>
 
-  <footer>
-    <script src="popup.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-  </footer>
+
+<footer>
+  <script src="popup.js"></script>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</footer>
 
 </html>
