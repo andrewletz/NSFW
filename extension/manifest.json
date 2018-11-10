@@ -12,6 +12,13 @@
       "scripts": ["background.js"],
       "persistent": false
     },
+ "content_scripts": [
+   {
+     "matches": ["https://*.youtube.com/*"],
+     "run_at": "document_end",
+     "js": ["content.js"]
+   }
+ ],
   "page_action": {
       "default_popup": "popup.html",
       "default_icon": {
