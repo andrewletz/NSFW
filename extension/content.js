@@ -4,7 +4,11 @@ function handleRecs(recs) {
 	for ( ; index < length; index++) {
 	    recs[index].style.backgroundColor = "#FFFFFF";
 	    recs[index].style.filter = "blur(10px)";
-	} 
+	}
+}
+
+function unblur() {
+  
 }
 
 // set up the mutation observer
