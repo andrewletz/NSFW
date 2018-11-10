@@ -7,6 +7,14 @@ from flask_cors import CORS
 
 from ModelAPI import *
 
+from VideoData import get_video_data
+
+
+TruthTable = [True, True, True, True, True, True, True]
+
+MUSIC = 10
+CLASSIFY_SET = set([26, 27, 28])
+
 
 app = Flask(__name__)
 CORS(app)
@@ -20,17 +28,47 @@ def make_public_task(task):
             new_task[field] = task[field]
     return new_task
 
-@app.route('/clickbait', methods=['POST'])
+# checks if a item should be blurred
+@app.route('/blur', methods=['POST'])
 def clickbait():
     if not request.json:
         abort(400)
-    x = process_and_predict_clickbait_data("Top 100 life hacks for fun style!")
-    print(x)
-    resp = jsonify({'result': 1})
+
+    subject_table = ['math', 'cs', 'chem', 'drawing', 'econ', 'music', 'cb']
+    
+    TruthTable = request.json['table']
+    video_id = request.json['video_id']
+
+    res = get_video_data(video_id)
+    title = res['title']
+    category = res['categoryId']
+
+    # instant return based on category
+    if category != MUSIC and category not in CLASSIFY_SET: 
+        resp = jsonify({'result': 0})
+
+    else:
+        # if music category
+        if category == MUSIC and TruthTable['music'] == 1: 
+            resp = jsonify({'result': 1})
+        elif category == MUSIC and TruthTable['music'] != 1: 
+            resp = jsonify({'result': 0})
+        else:
+            is_cb = process_and_predict_clickbait_data(title)
+            if bool(is_cb): 
+                resp = jsonify({'result': 0})
+            else:
+                guess_subject = process_and_predict_classify_data(title)
+                if TruthTable[[subject_table[guess_subject]] == 1: resp = jsonify({'result': 1})
+                else: resp = jsonify({'result': 0})
+
+
     resp.headers['Access-Control-Allow-Headers'] = "*"
     resp.headers['Access-Control-Allow-Origin'] = '*'
     resp.headers['Access-Control-Allow-Methods'] = ["GET", "POST", "DELETE", "PUT"]
     return resp, 201
+
+
 
 @app.route('/cb', methods=['GET'])
 def cb():
@@ -39,59 +77,9 @@ def cb():
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
 
-@app.route('/todo/api/v1.0/tasks', methods=['GET'])
-def get_tasks():
-    resp = jsonify({'tasks': [make_public_task(task) for task in tasks]})
-    resp.headers['Access-Control-Allow-Origin'] = '*'
-    return resp
 
-@app.route('/todo/api/v1.0/tasks/<int:task_id>', methods=['GET'])
-def get_task(task_id):
-    task = [task for task in tasks if task['id'] == task_id]
-    resp = jsonify({'task': task[0]})
-    resp.headers['Access-Control-Allow-Origin'] = '*'
-    if len(task) == 0:
-        abort(404)
-    return resp
 
-@app.route('/todo/api/v1.0/tasks', methods=['POST'])
-def create_task():
-    if not request.json or not 'title' in request.json:
-        abort(400)
-    task = {
-        'id': tasks[-1]['id'] + 1,
-        'title': request.json['title'],
-        'description': request.json.get('description', ""),
-        'done': False
-    }
-    tasks.append(task)
-    return jsonify({'task': task}), 201
 
-@app.route('/todo/api/v1.0/tasks/<int:task_id>', methods=['PUT'])
-def update_task(task_id):
-    task = [task for task in tasks if task['id'] == task_id]
-    if len(task) == 0:
-        abort(404)
-    if not request.json:
-        abort(400)
-    if 'title' in request.json and type(request.json['title']) != unicode:
-        abort(400)
-    if 'description' in request.json and type(request.json['description']) is not unicode:
-        abort(400)
-    if 'done' in request.json and type(request.json['done']) is not bool:
-        abort(400)
-    task[0]['title'] = request.json.get('title', task[0]['title'])
-    task[0]['description'] = request.json.get('description', task[0]['description'])
-    task[0]['done'] = request.json.get('done', task[0]['done'])
-    return jsonify({'task': task[0]})
-
-@app.route('/todo/api/v1.0/tasks/<int:task_id>', methods=['DELETE'])
-def delete_task(task_id):
-    task = [task for task in tasks if task['id'] == task_id]
-    if len(task) == 0:
-        abort(404)
-    tasks.remove(task[0])
-    return jsonify({'result': True})
 
 if __name__ == '__main__':
     app.run(debug=False, threaded=False)
