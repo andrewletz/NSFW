@@ -21,3 +21,4 @@ htmlcov/
 .coverage
 .coverage.*
 *,cover
+rest/flask/
